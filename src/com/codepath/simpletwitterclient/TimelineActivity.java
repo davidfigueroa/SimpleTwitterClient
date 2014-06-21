@@ -1,5 +1,7 @@
 package com.codepath.simpletwitterclient;
 
+import java.util.Collection;
+
 import org.json.JSONArray;
 
 import android.app.Activity;
@@ -29,8 +31,10 @@ public class TimelineActivity extends Activity {
 		client.getHomeTimeline(new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray json) {
-				//Log.d("debug", json.toString());
-				adapter.addAll(Tweet.fromJSONArray(json));
+				Collection<? extends Tweet> tweets = Tweet.fromJSONArray(json);
+				if (tweets != null && tweets.size() > 0) {
+					adapter.addAll(tweets);
+				}
 			}
 		});
 	}

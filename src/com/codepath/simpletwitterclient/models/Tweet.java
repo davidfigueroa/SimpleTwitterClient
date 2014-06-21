@@ -1,26 +1,28 @@
 package com.codepath.simpletwitterclient.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Tweet {
 	private String body;
 	private long uid;
-	private String createdAt;
+	private Date createdAt;
 	private User user;
-	
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH); //"Tue Aug 28 21:08:15 +0000 2012"
 	public static Tweet fromJSON(JSONObject json) {
 		Tweet tweet = new Tweet();
 		try {
 			tweet.body = json.getString("text");
 			tweet.uid = json.getLong("id");
-			tweet.createdAt = json.getString("created_at");
+			tweet.createdAt = dateFormat.parse(json.getString("created_at"));
 			tweet.user = User.fromJSON(json.getJSONObject("user"));
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -31,8 +33,10 @@ public class Tweet {
 		ArrayList<Tweet> tweets = new ArrayList<Tweet>(json.length());
 		for (int i = 0; i < json.length(); i++) {
 			try {
-				JSONObject tweetJson = json.getJSONObject(i);
-				tweets.add(fromJSON(tweetJson));
+				Tweet tweet = fromJSON(json.getJSONObject(i));
+				if (tweet != null) {
+					tweets.add(tweet);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -48,7 +52,7 @@ public class Tweet {
 		return uid;
 	}
 
-	public String getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
