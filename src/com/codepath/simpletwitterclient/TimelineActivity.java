@@ -22,13 +22,20 @@ public class TimelineActivity extends Activity {
 		adapter = new TweetArrayAdapter(this);
 		ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
 		lvTweets.setAdapter(adapter);
+		lvTweets.setOnScrollListener(new EndlessScrollListener() {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				Tweet t = adapter.getItem(totalItemsCount - 1);
+				populateTimeline(t.getUid());
+			}
+		});
 		
-		populateTimeline();
+		populateTimeline(0);
 	}
 	
-	private void populateTimeline() {
+	private void populateTimeline(long fromThisTweetId) {
 		TwitterClient client = SimpleTwitterClientApp.getRestClient();
-		client.getHomeTimeline(new JsonHttpResponseHandler() {
+		client.getHomeTimeline(fromThisTweetId, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray json) {
 				Collection<? extends Tweet> tweets = Tweet.fromJSONArray(json);
