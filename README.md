@@ -9,7 +9,7 @@ Completed user stories:
 * [x] Required: User should be able to see the username, name, body and timestamp for each tweet
 * [x] Required: User should be displayed the relative timestamp for a tweet "8m", "7h" 
 * [x] Required: User can view more tweets as they scroll with infinite pagination
-* [x] Required: 
+* [x] Required: User can click a “Compose” icon in the Action Bar on the top right
 
 Notes:
 
