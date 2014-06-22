@@ -7,5 +7,6 @@
     <string name="login_label">Connect to Twitter</string>
     <string name="title_activity_timeline">Home</string>
     <string name="title_activity_compose">Compose</string>
+    <string name="enter_tweet_hint">What is happening?</string>
 
 </resources>
