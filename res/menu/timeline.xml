@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/compose_tweet"
+        android:showAsAction="ifRoom"
+        android:title="@string/compose_label"
+        android:onClick="onComposeClick"
+    />
+
+</menu>
