@@ -5,6 +5,7 @@
         android:id="@+id/compose_tweet"
         android:showAsAction="ifRoom"
         android:title="@string/compose_label"
+        android:icon="@drawable/ic_compose_tweet"
         android:onClick="onComposeClick"
     />
 
