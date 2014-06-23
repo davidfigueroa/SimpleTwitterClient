@@ -27,6 +27,7 @@
         android:layout_below="@+id/tvUserName"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:text="body"
+        android:autoLink="all"
         android:textColor="#808080" />
 
     <TextView

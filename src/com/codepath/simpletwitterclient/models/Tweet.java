@@ -14,7 +14,13 @@ public class Tweet {
 	private long uid;
 	private Date createdAt;
 	private User user;
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH); //"Tue Aug 28 21:08:15 +0000 2012"
+	private static final SimpleDateFormat dateFormat;
+	
+	static {
+		dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH); //"Tue Aug 28 21:08:15 +0000 2012"
+		dateFormat.setLenient(true);
+	}
+	
 	public static Tweet fromJSON(JSONObject json) {
 		Tweet tweet = new Tweet();
 		try {

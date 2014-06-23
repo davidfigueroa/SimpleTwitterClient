@@ -69,6 +69,9 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		if (ms > msInMinute) {
 			return "" + ms / msInMinute + "m";
 		}
+		if (ms < 0) {
+			ms = 0;
+		}
 		return "" + ms / 1000 + "s";
 	}
 }
