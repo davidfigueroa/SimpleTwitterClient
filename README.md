@@ -14,6 +14,7 @@ Completed user stories:
 * [x] Required: User is taken back to home timeline with new tweet visible in timeline
 
 * [x] Optional: Links in tweets are clickable and will launch the web browser
+* [x] Optional: User can see a counter with total number of characters left for tweet
 
 Notes:
 
