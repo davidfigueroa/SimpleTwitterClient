@@ -1,5 +1,7 @@
 package com.codepath.simpletwitterclient;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.simpletwitterclient.models.Tweet;
 import com.codepath.simpletwitterclient.models.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ComposeActivity extends Activity {
@@ -68,10 +72,24 @@ public class ComposeActivity extends Activity {
 			Toast.makeText(this, getString(R.string.enter_tweet_hint), Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
-		Intent i = new Intent();
-		i.putExtra(EXTRA_TWEET, etTweet.getText().toString());
-		setResult(RESULT_OK, i);
-		finish();
+
+		TwitterClient client = SimpleTwitterClientApp.getRestClient();
+		client.postStatus(etTweet.getText().toString(), new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONObject json) {
+				Tweet tweet = Tweet.fromJSON(json);
+				if (tweet != null) {
+					Intent i = new Intent();
+					i.putExtra(EXTRA_TWEET, tweet);
+					setResult(RESULT_OK, i);
+					finish();
+				}
+			}
+			@Override
+			public void onFailure(Throwable t, String arg1) {
+				Toast.makeText(ComposeActivity.this, "Error posting tweet. " + t.getMessage(), Toast.LENGTH_LONG).show();
+				t.printStackTrace();
+			}
+		});
 	}
 }

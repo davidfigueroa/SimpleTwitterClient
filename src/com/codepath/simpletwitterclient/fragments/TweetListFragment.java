@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.json.JSONArray;
 
+import com.codepath.simpletwitterclient.ComposeActivity;
 import com.codepath.simpletwitterclient.EndlessScrollListener;
 import com.codepath.simpletwitterclient.R;
 import com.codepath.simpletwitterclient.SimpleTwitterClientApp;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public abstract class TweetListFragment extends Fragment {
 	private TweetArrayAdapter adapter;
@@ -59,8 +61,9 @@ public abstract class TweetListFragment extends Fragment {
 				}
 			}
 			@Override
-			public void onFailure(Throwable arg0, String arg1) {
-				arg0.printStackTrace();
+			public void onFailure(Throwable t, String arg1) {
+				Toast.makeText(getActivity(), "Error loading tweets. " + t.getMessage(), Toast.LENGTH_LONG).show();
+				t.printStackTrace();
 			}
 		};
 		getTimeline(client, fromThisTweetId, handler);

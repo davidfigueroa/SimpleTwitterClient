@@ -2,18 +2,20 @@ package com.codepath.simpletwitterclient;
 
 import org.json.JSONObject;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.simpletwitterclient.fragments.HomeTimelineFragment;
 import com.codepath.simpletwitterclient.fragments.MentionsTimelineFragment;
 import com.codepath.simpletwitterclient.fragments.TweetListFragment;
-import com.codepath.simpletwitterclient.listeners.FragmentTabListener;
 import com.codepath.simpletwitterclient.models.Tweet;
 import com.codepath.simpletwitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -21,43 +23,23 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 public class TimelineActivity extends FragmentActivity {
 	private static final int COMPOSE_TWEET = 1;
 	private User loggedInUser;
-	private TweetListFragment fragmentTweetList;
+	private TweetListFragment fragmentHomeTimeline, fragmentMentions;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
-		
-		fragmentTweetList = (TweetListFragment) getSupportFragmentManager().findFragmentById(R.layout.fragment_tweet_list);
+
+		//load info of logged in user
 		loadLoggedInUserInfo();
-		setupTabs();
-	}
-	
-	private void setupTabs() {
-		ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayShowTitleEnabled(true);
-
-		Tab tab1 = actionBar
-			.newTab()
-			.setText("Home")
-			.setIcon(R.drawable.ic_home_timeline)
-			.setTag("HomeTimelineFragment")
-			.setTabListener(
-				new FragmentTabListener<HomeTimelineFragment>(R.id.flContainer, this, "home", HomeTimelineFragment.class));
-
-		actionBar.addTab(tab1);
-		actionBar.selectTab(tab1);
-
-		Tab tab2 = actionBar
-			.newTab()
-			.setText("Mentions")
-			.setIcon(R.drawable.ic_mentions_timeline)
-			.setTag("MentionsTimelineFragment")
-			.setTabListener(
-			    new FragmentTabListener<MentionsTimelineFragment>(R.id.flContainer, this, "mentions", MentionsTimelineFragment.class));
-
-		actionBar.addTab(tab2);
+		
+		//instantiate main fragment to prevent race conditions
+		fragmentHomeTimeline = new HomeTimelineFragment();
+		
+		//setuo view pager of tabs
+		ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+		ContentPagerAdapter adapterViewPager = new ContentPagerAdapter(getSupportFragmentManager());
+		vpPager.setAdapter(adapterViewPager);	
 	}
 	
 	private void loadLoggedInUserInfo() {
@@ -68,8 +50,9 @@ public class TimelineActivity extends FragmentActivity {
 				loggedInUser = User.fromJSON(json);
 			}
 			@Override
-			public void onFailure(Throwable arg0, String arg1) {
-				arg0.printStackTrace();
+			public void onFailure(Throwable t, String arg1) {
+				t.printStackTrace();
+				Toast.makeText(TimelineActivity.this, "Error loading logged in user info. " + t.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -88,22 +71,34 @@ public class TimelineActivity extends FragmentActivity {
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == COMPOSE_TWEET && resultCode == RESULT_OK) {
-			String tweet = data.getStringExtra(ComposeActivity.EXTRA_TWEET);
-			
-			TwitterClient client = SimpleTwitterClientApp.getRestClient();
-			client.postStatus(tweet, new JsonHttpResponseHandler() {
-				@Override
-				public void onSuccess(JSONObject json) {
-					Tweet tweet = Tweet.fromJSON(json);
-					if (tweet != null) {
-						fragmentTweetList.insertTweet(tweet, 0);
-					}
-				}
-				@Override
-				public void onFailure(Throwable arg0, String arg1) {
-					arg0.printStackTrace();
-				}
-			});
+			Tweet tweet = (Tweet) data.getSerializableExtra(ComposeActivity.EXTRA_TWEET);
+			fragmentHomeTimeline.insertTweet(tweet, 0);
+		}
+	}
+	
+	public class ContentPagerAdapter extends FragmentPagerAdapter {
+		public ContentPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int arg0) {
+			if (arg0 == 0) return fragmentHomeTimeline;
+			if (fragmentMentions == null) {
+				fragmentMentions = new MentionsTimelineFragment();
+			}
+			return fragmentMentions;
+		}
+
+		@Override
+		public int getCount() {
+			return 2;
+		}
+		
+		@Override
+		public CharSequence getPageTitle(int position) {
+			if (position == 0) return "Home";
+			return "Mentions";
 		}
 	}
 }
