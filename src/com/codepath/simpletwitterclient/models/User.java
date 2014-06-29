@@ -7,10 +7,9 @@ import org.json.JSONObject;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = -3183737097051769606L;
-	private String name;
+	private String name, screenName, profileImageUrl;
 	private long uid;
-	private String screenName;
-	private String profileImageUrl;
+	private int followersCount ;
 
 	public static User fromJSON(JSONObject json) {
 		User user = new User();
@@ -19,6 +18,7 @@ public class User implements Serializable {
 			user.uid = json.getLong("id");
 			user.screenName = json.getString("screen_name");
 			user.profileImageUrl = json.getString("profile_image_url");
+			user.followersCount = Integer.parseInt(json.getString("followers_count"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;
@@ -41,4 +41,7 @@ public class User implements Serializable {
 	public String getProfileImageUrl() {
 		return profileImageUrl;
 	}
-}
+	
+	public int getFollowersCount() {
+		return followersCount;
+	}}

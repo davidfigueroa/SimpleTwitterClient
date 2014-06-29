@@ -4,22 +4,6 @@
     android:layout_height="match_parent"
     tools:context="${packageName}.${activityClass}" >
 
-    <EditText
-        android:id="@+id/etComposeTweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/fragment1"
-        android:ems="10"
-        android:gravity="center_vertical|top"
-        android:hint="@string/enter_tweet_hint"
-        android:maxLength="140" >
-
-        <requestFocus />
-    </EditText>
-
     <fragment
         android:id="@+id/fragment1"
         android:name="com.codepath.simpletwitterclient.fragments.UserInfoFragment"
@@ -28,5 +12,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         tools:layout="@layout/fragment_user_info" />
+
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.codepath.simpletwitterclient.fragments.UserTimelineFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/fragment1"
+        tools:layout="@layout/fragment_tweet_list" />
 
 </RelativeLayout>

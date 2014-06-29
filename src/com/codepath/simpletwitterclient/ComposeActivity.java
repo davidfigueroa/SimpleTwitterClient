@@ -2,26 +2,21 @@ package com.codepath.simpletwitterclient;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.simpletwitterclient.models.Tweet;
-import com.codepath.simpletwitterclient.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class ComposeActivity extends Activity {
+public class ComposeActivity extends FragmentActivity {
 	public static final String EXTRA_TWEET = "t";
-	public static final String EXTRA_USER = "u";
 	MenuItem tweetCharRemCount;
 	EditText etTweet;
 	
@@ -29,19 +24,6 @@ public class ComposeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_compose);
-		
-		User loggedInUser = (User) getIntent().getSerializableExtra(EXTRA_USER);
-		if (loggedInUser != null) {
-			ImageView ivUser = (ImageView) findViewById(R.id.ivComposeProfileImage);
-			ivUser.setImageResource(android.R.color.transparent);
-			ImageLoader.getInstance().displayImage(loggedInUser.getProfileImageUrl(), ivUser);
-			
-			TextView tvUserName = (TextView) findViewById(R.id.tvComposeUserName);
-			tvUserName.setText(loggedInUser.getName());
-
-			TextView tvUserHandle = (TextView) findViewById(R.id.tvComposeHandle);
-			tvUserHandle.setText("@" + loggedInUser.getScreenName());
-		}
 		
 		etTweet = (EditText) findViewById(R.id.etComposeTweet);
 		etTweet.addTextChangedListener(new TextWatcher() {

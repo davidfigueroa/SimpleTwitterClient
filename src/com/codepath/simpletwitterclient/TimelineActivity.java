@@ -1,7 +1,5 @@
 package com.codepath.simpletwitterclient;
 
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,18 +9,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.codepath.simpletwitterclient.fragments.HomeTimelineFragment;
 import com.codepath.simpletwitterclient.fragments.MentionsTimelineFragment;
 import com.codepath.simpletwitterclient.fragments.TweetListFragment;
 import com.codepath.simpletwitterclient.models.Tweet;
-import com.codepath.simpletwitterclient.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class TimelineActivity extends FragmentActivity {
 	private static final int COMPOSE_TWEET = 1;
-	private User loggedInUser;
+	private static final int USER_PROFILE = 2;
 	private TweetListFragment fragmentHomeTimeline, fragmentMentions;
 	
 	@Override
@@ -30,33 +25,15 @@ public class TimelineActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 
-		//load info of logged in user
-		loadLoggedInUserInfo();
-		
 		//instantiate main fragment to prevent race conditions
 		fragmentHomeTimeline = new HomeTimelineFragment();
 		
-		//setuo view pager of tabs
+		//Setup view pager of tabs
 		ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
 		ContentPagerAdapter adapterViewPager = new ContentPagerAdapter(getSupportFragmentManager());
 		vpPager.setAdapter(adapterViewPager);	
 	}
 	
-	private void loadLoggedInUserInfo() {
-		TwitterClient client = SimpleTwitterClientApp.getRestClient();
-		client.getAccoutCredentials(new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(JSONObject json) {
-				loggedInUser = User.fromJSON(json);
-			}
-			@Override
-			public void onFailure(Throwable t, String arg1) {
-				t.printStackTrace();
-				Toast.makeText(TimelineActivity.this, "Error loading logged in user info. " + t.getMessage(), Toast.LENGTH_LONG).show();
-			}
-		});
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.timeline, menu);
@@ -65,8 +42,12 @@ public class TimelineActivity extends FragmentActivity {
 	
 	public void onComposeClick(MenuItem mi) {
 		Intent i = new Intent(this, ComposeActivity.class);
-		i.putExtra(ComposeActivity.EXTRA_USER, loggedInUser);
 		startActivityForResult(i, COMPOSE_TWEET);
+	}
+	
+	public void onUserProfileClick(MenuItem mi) {
+		Intent i = new Intent(this, UserProfileActivity.class);
+		startActivityForResult(i, USER_PROFILE);
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

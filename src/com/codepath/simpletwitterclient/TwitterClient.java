@@ -23,6 +23,10 @@ public class TwitterClient extends OAuthBaseClient {
     public void getHomeTimeline(long fromThisTweetId, AsyncHttpResponseHandler handler) {
     	getTimeline("statuses/home_timeline.json", fromThisTweetId, handler);
     }
+
+    public void getUserTimeline(long fromThisTweetId, AsyncHttpResponseHandler handler) {
+    	getTimeline("statuses/user_timeline.json", fromThisTweetId, handler);
+    }   
     
     public void getMentionsTimeline(long fromThisTweetId, AsyncHttpResponseHandler handler) {
     	getTimeline("statuses/mentions_timeline.json", fromThisTweetId, handler);
