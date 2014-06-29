@@ -1,4 +1,4 @@
-package com.codepath.simpletwitterclient;
+package com.codepath.simpletwitterclient.activities;
 
 import org.json.JSONObject;
 
@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.codepath.simpletwitterclient.R;
+import com.codepath.simpletwitterclient.SimpleTwitterClientApp;
+import com.codepath.simpletwitterclient.TwitterClient;
 import com.codepath.simpletwitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 

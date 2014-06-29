@@ -1,10 +1,12 @@
-package com.codepath.simpletwitterclient;
+package com.codepath.simpletwitterclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.codepath.oauth.OAuthLoginActivity;
+import com.codepath.simpletwitterclient.R;
+import com.codepath.simpletwitterclient.TwitterClient;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
 	@Override
