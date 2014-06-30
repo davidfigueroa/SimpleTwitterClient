@@ -10,21 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.codepath.simpletwitterclient.EndlessScrollListener;
 import com.codepath.simpletwitterclient.R;
-import com.codepath.simpletwitterclient.SimpleTwitterClientApp;
 import com.codepath.simpletwitterclient.TweetArrayAdapter;
-import com.codepath.simpletwitterclient.TwitterClient;
 import com.codepath.simpletwitterclient.models.Tweet;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public abstract class TweetListFragment extends Fragment {
 	private TweetArrayAdapter adapter;
 
-	protected abstract void getTimeline(TwitterClient client, long fromThisTweetId, AsyncHttpResponseHandler handler);
+	protected abstract void getTimeline(long fromThisTweetId, JsonHttpResponseHandler handler);
 	protected abstract boolean getNavigateToUserProfileOnImageClick();
 	
 	@Override
@@ -57,8 +53,7 @@ public abstract class TweetListFragment extends Fragment {
 	}
 
 	private void populateTimeline(long fromThisTweetId) {
-		TwitterClient client = SimpleTwitterClientApp.getRestClient();
-		AsyncHttpResponseHandler handler = new JsonHttpResponseHandler() {
+		JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray json) {
 				try {
@@ -70,12 +65,7 @@ public abstract class TweetListFragment extends Fragment {
 					onFailure(e, (String)null);
 				}
 			}
-			@Override
-			public void onFailure(Throwable t, String arg1) {
-				Toast.makeText(getActivity(), "Error loading tweets. " + t.getMessage(), Toast.LENGTH_LONG).show();
-				t.printStackTrace();
-			}
 		};
-		getTimeline(client, fromThisTweetId, handler);
+		getTimeline(fromThisTweetId, handler);
 	}
 }

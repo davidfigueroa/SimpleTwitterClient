@@ -14,18 +14,16 @@ week 3
 * [x] Required: User can then enter a new tweet and post this to twitter
 * [x] Required: User is taken back to home timeline with new tweet visible in timeline
 
+* [x] Optional: Links in tweets are clickable and will launch the web browser
+* [x] Optional: User can see a counter with total number of characters left for tweet
+
 week 4
 * [x] Required: User can view their home timeline tweets.
 * [x] Required: User can view the recent mentions of their username.
 * [x] Required: User can see picture, tagline, # of followers, # of following, and tweets on their profile.
 * [x] Required: User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
-* [x] Required: 
-* [x] Required: 
-* [x] Required: 
 
-* [x] Optional: Links in tweets are clickable and will launch the web browser
-* [x] Optional: User can see a counter with total number of characters left for tweet
-* [x] Optional: 
+* [x] Optional: When a network request is sent, user sees an indeterminate progress indicator
 * [x] Optional: 
 * [x] Optional: 
 * [x] Optional: 

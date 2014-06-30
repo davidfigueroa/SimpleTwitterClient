@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.simpletwitterclient.R;
 import com.codepath.simpletwitterclient.SimpleTwitterClientApp;
@@ -45,7 +44,7 @@ public class UserInfoFragment extends Fragment {
 		//if user is not passed in load current user
 		if (user == null) {
 			TwitterClient client = SimpleTwitterClientApp.getRestClient();
-			client.getAccoutCredentials(new JsonHttpResponseHandler() {
+			client.getAccoutCredentials(getActivity(), new JsonHttpResponseHandler() {
 				@Override
 				public void onSuccess(JSONObject json) {
 					try {
@@ -54,11 +53,6 @@ public class UserInfoFragment extends Fragment {
 					} catch (JSONException e) {
 						onFailure(e, (String)null);
 					}
-				}
-				@Override
-				public void onFailure(Throwable t, String arg1) {
-					t.printStackTrace();
-					Toast.makeText(getActivity(), "Error loading logged in user info. " + t.getMessage(), Toast.LENGTH_LONG).show();
 				}
 			});
 		} else {
@@ -90,10 +84,6 @@ public class UserInfoFragment extends Fragment {
 			tvFollowing.setText(String.valueOf(user.getFollowingCount()));
 		}
 	}
-
-	/*public boolean isCompactView() {
-		return compactView;
-	}*/
 
 	public void setCompactView(boolean compactView) {
 		this.compactView = compactView;

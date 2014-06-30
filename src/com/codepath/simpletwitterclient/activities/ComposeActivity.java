@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class ComposeActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_compose);
 
 		UserInfoFragment fragmentUserInfo = (UserInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_compose_user_info);
@@ -63,7 +65,7 @@ public class ComposeActivity extends FragmentActivity {
 		}
 
 		TwitterClient client = SimpleTwitterClientApp.getRestClient();
-		client.postStatus(etTweet.getText().toString(), new JsonHttpResponseHandler() {
+		client.postStatus(etTweet.getText().toString(), this, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject json) {
 				try {
@@ -75,11 +77,6 @@ public class ComposeActivity extends FragmentActivity {
 				} catch (Exception e) {
 					onFailure(e, (String)null);
 				}
-			}
-			@Override
-			public void onFailure(Throwable t, String arg1) {
-				Toast.makeText(ComposeActivity.this, "Error posting tweet. " + t.getMessage(), Toast.LENGTH_LONG).show();
-				t.printStackTrace();
 			}
 		});
 	}
