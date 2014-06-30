@@ -18,7 +18,7 @@ week 4
 * [x] Required: User can view their home timeline tweets.
 * [x] Required: User can view the recent mentions of their username.
 * [x] Required: User can see picture, tagline, # of followers, # of following, and tweets on their profile.
-* [x] Required: 
+* [x] Required: User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
 * [x] Required: 
 * [x] Required: 
 * [x] Required: 

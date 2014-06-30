@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.simpletwitterclient.activities.UserProfileActivity;
 import com.codepath.simpletwitterclient.models.Tweet;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -26,7 +28,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Tweet tweet = getItem(position);
+		final Tweet tweet = getItem(position);
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.tweet_item, parent, false);
 		}
@@ -34,6 +36,14 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
 		ivProfileImage.setImageResource(android.R.color.transparent);
 		ImageLoader.getInstance().displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
+		ivProfileImage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getContext(), UserProfileActivity.class);
+				i.putExtra(UserProfileActivity.EXTRA_USER, tweet.getUser());
+				getContext().startActivity(i);
+			}
+		});
 		
 		TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
 		tvUserName.setText(tweet.getUser().getName());

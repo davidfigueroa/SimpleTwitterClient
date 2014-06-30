@@ -4,11 +4,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 import com.codepath.simpletwitterclient.R;
+import com.codepath.simpletwitterclient.fragments.UserInfoFragment;
+import com.codepath.simpletwitterclient.models.User;
 
 public class UserProfileActivity extends FragmentActivity {
+	public static final String EXTRA_USER = "u";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
+
+		User user = (User) getIntent().getSerializableExtra(EXTRA_USER);
+		
+		UserInfoFragment fragmentUserInfo = (UserInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragUserProfileInfo);
+		fragmentUserInfo.setUser(user);
 	}
 }

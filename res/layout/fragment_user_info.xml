@@ -44,8 +44,8 @@
         android:id="@+id/tvFollowers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivComposeProfileImage"
-        android:layout_alignLeft="@+id/tvComposeUserName"
+        android:layout_below="@+id/tvUserDescription"
+        android:layout_alignLeft="@+id/tvUserDescription"
         android:text="15" 
         android:textColor="#808080"/>
 
