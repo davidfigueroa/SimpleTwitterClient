@@ -21,22 +21,30 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
     public void getHomeTimeline(long fromThisTweetId, AsyncHttpResponseHandler handler) {
-    	getTimeline("statuses/home_timeline.json", fromThisTweetId, handler);
+    	getTimeline("statuses/home_timeline.json", null, fromThisTweetId, handler);
     }
 
-    public void getUserTimeline(long fromThisTweetId, AsyncHttpResponseHandler handler) {
-    	getTimeline("statuses/user_timeline.json", fromThisTweetId, handler);
+    public void getUserTimeline(long userId, long fromThisTweetId, AsyncHttpResponseHandler handler) {
+    	RequestParams params = null;
+    	if (userId != 0) {
+    		params = new RequestParams();
+    		params.put("user_id", String.valueOf(userId));
+    	}
+    	
+    	getTimeline("statuses/user_timeline.json", params, fromThisTweetId, handler);
     }   
     
     public void getMentionsTimeline(long fromThisTweetId, AsyncHttpResponseHandler handler) {
-    	getTimeline("statuses/mentions_timeline.json", fromThisTweetId, handler);
+    	getTimeline("statuses/mentions_timeline.json", null, fromThisTweetId, handler);
     }
 
-    private void getTimeline(String relUri, long fromThisTweetId, AsyncHttpResponseHandler handler) {
+    private void getTimeline(String relUri, RequestParams params, long fromThisTweetId, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl(relUri);
 
-        RequestParams params = null;
         if (fromThisTweetId != 0) {
+        	if (params == null) {
+        		params = new RequestParams();
+        	}
         	params = new RequestParams();
         	params.put("max_id", Long.valueOf(fromThisTweetId - 1).toString());
         }

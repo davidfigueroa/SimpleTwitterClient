@@ -25,12 +25,13 @@ public abstract class TweetListFragment extends Fragment {
 	private TweetArrayAdapter adapter;
 
 	protected abstract void getTimeline(TwitterClient client, long fromThisTweetId, AsyncHttpResponseHandler handler);
+	protected abstract boolean getNavigateToUserProfileOnImageClick();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_tweet_list, container, false);
 
-		adapter = new TweetArrayAdapter(getActivity());
+		adapter = new TweetArrayAdapter(getActivity(), getNavigateToUserProfileOnImageClick());
 		ListView lvTweets = (ListView) v.findViewById(R.id.lvTweets);
 		lvTweets.setAdapter(adapter);
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {
@@ -41,10 +42,16 @@ public abstract class TweetListFragment extends Fragment {
 			}
 		});
 		
-		populateTimeline(0);
 		return v;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		populateTimeline(0);
+	}
+	
 	public void insertTweet(Tweet tweet, int index) {
 		adapter.insert(tweet, index);
 	}

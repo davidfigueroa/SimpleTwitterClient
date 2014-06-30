@@ -8,4 +8,9 @@ public class MentionsTimelineFragment extends TweetListFragment {
 	protected void getTimeline(TwitterClient client, long fromThisTweetId, AsyncHttpResponseHandler handler) {
 		client.getMentionsTimeline(fromThisTweetId, handler);
 	}
+
+	@Override
+	protected boolean getNavigateToUserProfileOnImageClick() {
+		return true;
+	}
 }

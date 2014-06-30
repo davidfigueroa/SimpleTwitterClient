@@ -9,8 +9,7 @@
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_twitter"
-        android:onClick="onTweetItemImageClick" />
+        android:src="@drawable/ic_twitter" />
 
     <TextView
         android:id="@+id/tvUserName"

@@ -8,4 +8,9 @@ public class HomeTimelineFragment extends TweetListFragment {
 	protected void getTimeline(TwitterClient client, long fromThisTweetId, AsyncHttpResponseHandler handler) {
 		client.getHomeTimeline(fromThisTweetId, handler);
 	}
+
+	@Override
+	protected boolean getNavigateToUserProfileOnImageClick() {
+		return true;
+	}
 }

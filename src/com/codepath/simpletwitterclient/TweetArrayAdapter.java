@@ -21,9 +21,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 	private static final DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, Locale.ENGLISH);
 	private static final DateFormat monthDayFormat = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
+	private final boolean navigateToUserProfileOnImageClick;
 	
-	public TweetArrayAdapter(Context context) {
+	public TweetArrayAdapter(Context context, boolean navigateToUserProfileOnImageClick) {
 		super(context, R.layout.tweet_item);
+		this.navigateToUserProfileOnImageClick = navigateToUserProfileOnImageClick;
 	}
 
 	@Override
@@ -36,14 +38,16 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
 		ivProfileImage.setImageResource(android.R.color.transparent);
 		ImageLoader.getInstance().displayImage(tweet.getUser().getProfileImageUrl(), ivProfileImage);
-		ivProfileImage.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getContext(), UserProfileActivity.class);
-				i.putExtra(UserProfileActivity.EXTRA_USER, tweet.getUser());
-				getContext().startActivity(i);
-			}
-		});
+		if (navigateToUserProfileOnImageClick) {
+			ivProfileImage.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent(getContext(), UserProfileActivity.class);
+					i.putExtra(UserProfileActivity.EXTRA_USER, tweet.getUser());
+					getContext().startActivity(i);
+				}
+			});
+		}
 		
 		TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
 		tvUserName.setText(tweet.getUser().getName());

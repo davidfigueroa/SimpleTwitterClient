@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.codepath.simpletwitterclient.R;
 import com.codepath.simpletwitterclient.fragments.UserInfoFragment;
+import com.codepath.simpletwitterclient.fragments.UserTimelineFragment;
 import com.codepath.simpletwitterclient.models.User;
 
 public class UserProfileActivity extends FragmentActivity {
@@ -17,7 +18,12 @@ public class UserProfileActivity extends FragmentActivity {
 
 		User user = (User) getIntent().getSerializableExtra(EXTRA_USER);
 		
-		UserInfoFragment fragmentUserInfo = (UserInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragUserProfileInfo);
-		fragmentUserInfo.setUser(user);
+		if (user != null) {
+			UserInfoFragment fragmentUserInfo = (UserInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragUserProfileInfo);
+			fragmentUserInfo.setUser(user);
+			 
+			UserTimelineFragment fragUserTimeline = (UserTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.fragUserProfileTimeline);
+			fragUserTimeline.setUserId(user.getUid());
+		}
 	}
 }
