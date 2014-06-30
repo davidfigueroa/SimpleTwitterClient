@@ -38,7 +38,7 @@ public class TwitterClient extends OAuthBaseClient {
         RequestParams params = null;
         if (fromThisTweetId != 0) {
         	params = new RequestParams();
-        	params.put("max_id", Long.valueOf(fromThisTweetId).toString());
+        	params.put("max_id", Long.valueOf(fromThisTweetId - 1).toString());
         }
         client.get(apiUrl, params, handler);
     }

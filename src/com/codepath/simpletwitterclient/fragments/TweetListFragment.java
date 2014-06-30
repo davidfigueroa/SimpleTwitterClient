@@ -54,9 +54,13 @@ public abstract class TweetListFragment extends Fragment {
 		AsyncHttpResponseHandler handler = new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray json) {
-				Collection<? extends Tweet> tweets = Tweet.fromJSONArray(json);
-				if (tweets != null && tweets.size() > 0) {
-					adapter.addAll(tweets);
+				try {
+					Collection<? extends Tweet> tweets = Tweet.fromJSONArray(json);
+					if (tweets != null && tweets.size() > 0) {
+						adapter.addAll(tweets);
+					}
+				} catch (Exception e) {
+					onFailure(e, (String)null);
 				}
 			}
 			@Override

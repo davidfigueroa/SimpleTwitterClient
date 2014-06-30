@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
     <ImageView
         android:id="@+id/ivComposeProfileImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_twitter"
-        android:contentDescription="Photo of user" />
+        android:contentDescription="Photo of user"
+        android:src="@drawable/ic_twitter" />
 
     <TextView
         android:id="@+id/tvComposeUserName"
@@ -18,15 +18,68 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivComposeProfileImage"
-        android:text="user name" />
+        android:text="handle"
+        android:textColor="#808080" />
 
     <TextView
         android:id="@+id/tvComposeHandle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvComposeUserName"
+        android:text="user name" 
+        android:textColor="#808080"/>
+
+    <TextView
+        android:id="@+id/tvUserDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tvComposeUserName"
         android:layout_below="@+id/tvComposeUserName"
-        android:text="handle"
+        android:text="description"
         android:textColor="#808080" />
-    
+
+    <TextView
+        android:id="@+id/tvFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivComposeProfileImage"
+        android:layout_alignLeft="@+id/tvComposeUserName"
+        android:text="15" 
+        android:textColor="#808080"/>
+
+    <TextView
+        android:id="@+id/tvFollowersLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvFollowers"
+        android:layout_alignBottom="@+id/tvFollowers"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@+id/tvFollowers"
+        android:text="followers" 
+        android:textColor="#808080"/>
+
+    <TextView
+        android:id="@+id/tvFollowing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvFollowersLabel"
+        android:layout_alignBottom="@+id/tvFollowersLabel"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tvFollowersLabel"
+        android:text="15" 
+        android:textColor="#808080"/>
+
+    <TextView
+        android:id="@+id/tvFollowingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvFollowing"
+        android:layout_alignBottom="@+id/tvFollowing"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@+id/tvFollowing"
+        android:text="following" 
+        android:textColor="#808080"/>
+
 </RelativeLayout>

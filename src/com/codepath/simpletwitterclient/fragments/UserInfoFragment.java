@@ -1,5 +1,6 @@
 package com.codepath.simpletwitterclient.fragments;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class UserInfoFragment extends Fragment {
+	private boolean compactView;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_user_info, container, false);
@@ -27,7 +30,11 @@ public class UserInfoFragment extends Fragment {
 		client.getAccoutCredentials(new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject json) {
-				showUserInfo(v, User.fromJSON(json));
+				try {
+					showUserInfo(v, User.fromJSON(json));
+				} catch (JSONException e) {
+					onFailure(e, (String)null);
+				}
 			}
 			@Override
 			public void onFailure(Throwable t, String arg1) {
@@ -35,8 +42,23 @@ public class UserInfoFragment extends Fragment {
 				Toast.makeText(getActivity(), "Error loading logged in user info. " + t.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		});
-		
+				
 		return v;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		View v = getView();
+		
+		if (compactView) {
+			v.findViewById(R.id.tvFollowers).setVisibility(View.GONE);
+			v.findViewById(R.id.tvFollowing).setVisibility(View.GONE);
+			v.findViewById(R.id.tvUserDescription).setVisibility(View.GONE);
+			v.findViewById(R.id.tvFollowingLabel).setVisibility(View.GONE);
+			v.findViewById(R.id.tvFollowersLabel).setVisibility(View.GONE);
+		}
+
+		super.onActivityCreated(savedInstanceState);
 	}
 	
 	private void showUserInfo(View v, User loggedInUser) {
@@ -49,5 +71,24 @@ public class UserInfoFragment extends Fragment {
 
 		TextView tvUserHandle = (TextView) v.findViewById(R.id.tvComposeHandle);
 		tvUserHandle.setText("@" + loggedInUser.getScreenName());
+
+		if (!compactView) {
+			TextView tvUserDescription = (TextView) v.findViewById(R.id.tvUserDescription);
+			tvUserDescription.setText(loggedInUser.getDescription());
+	
+			TextView tvFollowers = (TextView) v.findViewById(R.id.tvFollowers);
+			tvFollowers.setText(String.valueOf(loggedInUser.getFollowersCount()));
+	
+			TextView tvFollowing = (TextView) v.findViewById(R.id.tvFollowing);
+			tvFollowing.setText(String.valueOf(loggedInUser.getFollowingCount()));
+		}
+	}
+
+	public boolean isCompactView() {
+		return compactView;
+	}
+
+	public void setCompactView(boolean compactView) {
+		this.compactView = compactView;
 	}
 }

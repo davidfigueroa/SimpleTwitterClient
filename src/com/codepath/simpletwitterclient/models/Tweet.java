@@ -1,6 +1,7 @@
 package com.codepath.simpletwitterclient.models;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Tweet implements Serializable {
@@ -24,31 +26,20 @@ public class Tweet implements Serializable {
 		dateFormat.setLenient(true);
 	}
 	
-	public static Tweet fromJSON(JSONObject json) {
+	public static Tweet fromJSON(JSONObject json) throws JSONException, ParseException {
 		Tweet tweet = new Tweet();
-		try {
-			tweet.body = json.getString("text");
-			tweet.uid = json.getLong("id");
-			tweet.createdAt = dateFormat.parse(json.getString("created_at"));
-			tweet.user = User.fromJSON(json.getJSONObject("user"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		tweet.body = json.getString("text");
+		tweet.uid = json.getLong("id");
+		tweet.createdAt = dateFormat.parse(json.getString("created_at"));
+		tweet.user = User.fromJSON(json.getJSONObject("user"));
 		return tweet;
 	}
 
-	public static Collection<? extends Tweet> fromJSONArray(JSONArray json) {
+	public static Collection<? extends Tweet> fromJSONArray(JSONArray json) throws JSONException, ParseException {
 		ArrayList<Tweet> tweets = new ArrayList<Tweet>(json.length());
 		for (int i = 0; i < json.length(); i++) {
-			try {
-				Tweet tweet = fromJSON(json.getJSONObject(i));
-				if (tweet != null) {
-					tweets.add(tweet);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			Tweet tweet = fromJSON(json.getJSONObject(i));
+			tweets.add(tweet);
 		}
 		return tweets;
 	}

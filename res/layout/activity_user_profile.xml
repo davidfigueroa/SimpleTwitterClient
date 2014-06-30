@@ -13,6 +13,13 @@
         android:layout_alignParentTop="true"
         tools:layout="@layout/fragment_user_info" />
 
+    <View android:id="@+id/vLine"
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="@android:color/darker_gray"
+        android:layout_below="@+id/fragment1"
+	    />
+    
     <fragment
         android:id="@+id/fragment2"
         android:name="com.codepath.simpletwitterclient.fragments.UserTimelineFragment"
@@ -21,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/fragment1"
+        android:layout_below="@+id/vLine"
         tools:layout="@layout/fragment_tweet_list" />
 
 </RelativeLayout>

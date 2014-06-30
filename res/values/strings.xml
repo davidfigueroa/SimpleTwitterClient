@@ -8,7 +8,7 @@
     <string name="title_activity_timeline">Home</string>
     <string name="title_activity_compose">Compose</string>
     <string name="enter_tweet_hint">What is happening?</string>
-    <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="title_activity_user_profile">User Profile</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

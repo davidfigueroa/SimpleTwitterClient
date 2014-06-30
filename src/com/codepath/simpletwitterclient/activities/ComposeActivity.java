@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.codepath.simpletwitterclient.R;
 import com.codepath.simpletwitterclient.SimpleTwitterClientApp;
 import com.codepath.simpletwitterclient.TwitterClient;
+import com.codepath.simpletwitterclient.fragments.UserInfoFragment;
 import com.codepath.simpletwitterclient.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -27,7 +28,10 @@ public class ComposeActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_compose);
-		
+
+		UserInfoFragment fragmentUserInfo = (UserInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_compose_user_info);
+		fragmentUserInfo.setCompactView(true);
+				
 		etTweet = (EditText) findViewById(R.id.etComposeTweet);
 		etTweet.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -42,7 +46,7 @@ public class ComposeActivity extends FragmentActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 			}
-		});
+		});		
 	}
 	
 	@Override
@@ -62,12 +66,14 @@ public class ComposeActivity extends FragmentActivity {
 		client.postStatus(etTweet.getText().toString(), new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject json) {
-				Tweet tweet = Tweet.fromJSON(json);
-				if (tweet != null) {
+				try {
+					Tweet tweet = Tweet.fromJSON(json);
 					Intent i = new Intent();
 					i.putExtra(EXTRA_TWEET, tweet);
 					setResult(RESULT_OK, i);
 					finish();
+				} catch (Exception e) {
+					onFailure(e, (String)null);
 				}
 			}
 			@Override
